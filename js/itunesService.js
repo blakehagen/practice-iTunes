@@ -19,12 +19,14 @@ app.service('itunesService', function ($http, $q) {
         }).then(function (response) {
 
             var allData = response.data.results;
+            console.log(allData);
 
             var final = [];
 
             var obj = {
                 AlbumArt: "",
                 Artist: "",
+                Title: "",
                 Collection: "",
                 CollectionPrice: "",
                 Play: "",
@@ -32,14 +34,15 @@ app.service('itunesService', function ($http, $q) {
             };
 
             for (var i = 0; i < allData.length; i++) {
-                obj.AlbumArt = allData[i].artworkUrl100;
-                obj.Artist = allData[i].artistName;
-                obj.Collection = allData[i].collectionCensoredName;
-                obj.CollectionPrice = allData[i].collectionPrice;
-                obj.Play = allData[i].previewUrl;
-                obj.Type = allData[i].kind;
-
-                final.push(obj);
+                final.push({
+                    AlbumArt: allData[i].artworkUrl100,
+                    Artist: allData[i].artistName,
+                    Title: allData[i].trackCensoredName,
+                    Collection: allData[i].collectionCensoredName,
+                    CollectionPrice: allData[i].trackPrice,
+                    Play: allData[i].previewUrl,
+                    Type: allData[i].kind
+                })
             }
             deferred.resolve(final);
         })
